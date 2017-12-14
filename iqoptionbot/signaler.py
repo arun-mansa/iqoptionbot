@@ -42,7 +42,7 @@ class Signaler(object):
         :param patterns: The list of patters to wait signal.
         """
         for pattern in patterns:
-            self.patterns.append(pattern_constants.PATTERNS[pattern](self.api))
+            self.patterns.append(pattern_constants.PATTERNS[pattern](self.api, api_constants.ACTIVES[self.active]))
 
     def get_signal(self):
         """Get signal from patterns.

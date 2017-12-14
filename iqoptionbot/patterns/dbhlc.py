@@ -7,16 +7,20 @@ class DBHLC(Base):
     """Class for DBLHC pattern."""
     # pylint: disable=too-few-public-methods
 
-    def __init__(self, api):
+    def __init__(self, api, active):
         """
         :param api: The instance of
             :class:`IQOptionAPI <iqoptionapi.api.IQOptionAPI>`.
         """
-        super(DBHLC, self).__init__(api)
+        super(DBHLC, self).__init__(api, active)
         self.name = "DBHLC"
 
     def put(self):
         """Method to check put pattern."""
-        if self.candles.first_candle.candle_high == self.candles.second_candle.candle_high:
-            if self.candles.second_candle.candle_close < self.candles.first_candle.candle_low:
-                return True
+        candles = self.candles
+
+        if (hasattr(candles, 'first_candle') and hasattr(candles, 'second_candle')):
+            
+            if candles.first_candle.candle_high == candles.second_candle.candle_high:
+                if candles.second_candle.candle_close <= candles.first_candle.candle_open:
+                    return True

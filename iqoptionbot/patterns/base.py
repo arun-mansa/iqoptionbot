@@ -5,18 +5,19 @@ import time
 class Base(object):
     """Class for IQ Option API base pattern."""
 
-    def __init__(self, api):
+    def __init__(self, api, active):
         """
         :param api: The instance of
             :class:`IQOptionAPI <iqoptionapi.api.IQOptionAPI>`.
         """
         self.api = api
+        self.active = active
 
     @property
     def candles(self):
         """Property to get candles."""
         if self.api.timesync.server_datetime.second == 0:
-            self.api.getcandles(76, 60)
+            self.api.getcandles(self.active, 60)
             time.sleep(0.5)
             return self.api.candles
 
